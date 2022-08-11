@@ -503,7 +503,7 @@
 
 /* ================================= */
 /* Object                            */
-/* loop for object                 */
+/* loop for object                   */
 /* ================================= */
 
 // const foo = { a: 1, b: 2, c: 3 };
@@ -574,3 +574,72 @@
 //   // 2
 //   // 3 の順で出力される
 // }
+
+/* ================================= */
+/* Structural subtyping              */
+/* ================================= */
+
+// class File extends InputSource {
+//   public readonly destination: string;
+//   public constructor(destination: string) {
+//     super();
+//     this.destination = destination;
+//   }
+//   public fetch(): Data {
+//     const reader: Reader = FileSystem.readFrom(this.destination);
+//     // ...
+//     return data;
+//   }
+// }
+
+// class Request extends InputSource {
+//   public readonly destination: string;
+//   public constructor(destination: string) {
+//     super();
+//     this.destination = destination;
+//   }
+//   public fetch(): Data {
+//     const response: Response = HTTPRequest.get(this.destination);
+//     // ...
+//     return data;
+//   }
+// }
+
+// const source1: InputSource = new File("/data/~~~.txt");
+// const source2: InputSource = new Request("https://~~~~");
+// const data1: Data = source1.fetch();
+// const data2: Data = source2.fetch();
+
+// const source3: Request = new File("/data/~~~.txt"); // not error
+// const source4: File = new Request("https://~~~~"); // not error
+// const data3: Data = source3.fetch();
+// const data4: Data = source4.fetch();
+
+// class File {
+//   public destination: string;
+//   public constructor(destination: string) {
+//     this.destination = destination;
+//   }
+//   public fetch(): Data {
+//     const reader: Reader = FileSystem.readFrom(this.destination);
+//     // ...
+//     return data;
+//   }
+// }
+
+// class Request {
+//   public destination: string;
+//   public constructor(destination: string) {
+//     this.destination = destination;
+//   }
+//   public fetch(): Data {
+//     const response: Response = HTTPRequest.get(this.destination);
+//     // ...
+//     return data;
+//   }
+// }
+
+// const source3: Request = new File("/data/~~~.txt"); // not error
+// const source4: File = new Request("https://~~~~"); // not error
+// const data3: Data = source3.fetch();
+// const data4: Data = source4.fetch();
