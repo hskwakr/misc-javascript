@@ -275,3 +275,61 @@
 // const mayBePochi: Dog = dogs[0];
 // mayBePochi.wanwan();
 // // JS実行時エラー: mayBePochi.wanwan is not a function
+
+/* ================================= */
+/* Tuple                             */
+/* ================================= */
+
+// function tuple() {
+//   // ...
+//   return [1, "ok", true];
+// }
+
+// const list: unknown[] = tuple();
+// list[0].toString(); // error
+
+// const list: [number, string, boolean] = tuple();
+
+// function tuple(): [number, string, boolean] {
+//   // ...
+//   return [1, "ok", true];
+// }
+
+// const list: [number, string, boolean] = tuple();
+
+// list[0].toExponential();
+// list[1].length;
+// list[2].valueOf();
+
+// const list: [number, string, boolean] = tuple();
+// list[5]; // error
+
+// const [num, str, bool]: [number, string, boolean] = tuple();
+
+// const [, , bool]: [number, string, boolean] = tuple();
+
+// const promise: Promise<number> = yyAsync();
+// const num: number = await promise;
+
+// async function takes3Seconds(): Promise<string> {
+//   // ...
+//   return "finished!";
+// }
+
+// async function takes5Seconds(): Promise<number> {
+//   // ...
+//   return -1;
+// }
+
+// const str: string = await takes3Seconds();
+// const num: number = await takes5Seconds();
+
+// const tuple: [string, number] = await Promise.all([
+//   takes3Seconds(),
+//   takes5Seconds(),
+// ]);
+
+// const tuple: [number, string] = await Promise.all([
+//   takes5Seconds(),
+//   takes3Seconds(),
+// ]);
