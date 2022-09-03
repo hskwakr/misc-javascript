@@ -40,3 +40,26 @@
 //   return "Hello World";
 // }
 // hello.prop = 123;
+
+/* ================================= */
+/* void type                         */
+/* ================================= */
+
+// function print(message: string): void {
+//   console.log(message);
+// }
+
+// function print(message: string): undefined {
+//   console.log(message);
+//   return undefined; // これがないとコンパイルエラーになる
+// }
+
+// function getIfExists(numbers: number[], search: number): number | undefined {
+//   if (numbers.includes(search)) {
+//     return search;
+//   }
+//   return undefined;
+// }
+
+// const v: void = undefined;
+// const u: undefined = v; // error
