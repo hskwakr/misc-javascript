@@ -63,3 +63,51 @@
 
 // const v: void = undefined;
 // const u: undefined = v; // error
+
+/* ================================= */
+/* function parameter                */
+/* ================================= */
+
+// function increment(n) {
+//   return n + 1;
+// }
+// increment(1, 2); // OK
+
+// function foo(a, b) {
+//   console.log(b);
+// }
+// foo(1); // 引数が足りない
+
+// function foo(a, b) {
+//   if (arguments.length > 2) {
+//     throw new Error("引数の数は2つまでです");
+//   }
+// }
+// foo(1, 2); // OK
+// foo(1, 2, 3); // エラー
+
+// function increment(n) {
+//   return n + 1;
+// }
+// increment(1, 2); // 引数が多い
+// increment(); // 引数が足りない
+
+// function len(str) {
+//   return str.length;
+// }
+// console.log(len(null));
+
+// function len(str) {
+//   if (typeof str !== "string") {
+//     throw new Error("strは文字列型にしてください");
+//   }
+//   return str.length;
+// }
+// len("a"); // OK
+// len(1); // エラー
+
+// function len(str: string) {
+//   return str.length;
+// }
+// len("a"); // OK
+// len(1); // エラー
