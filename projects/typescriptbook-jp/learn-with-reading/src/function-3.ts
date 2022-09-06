@@ -111,3 +111,34 @@
 // }
 // len("a"); // OK
 // len(1); // エラー
+
+/* ================================= */
+/* pass-by-value                     */
+/* vs                                */
+/* pass-by-reference                 */
+/* ================================= */
+
+// function change(n) {
+//   n = 2;
+// }
+// let n = 1;
+// change(n);
+// console.log(n);
+
+// const x = { n: 1 };
+// const y = x;
+// y.n = 2;
+// console.log(x);
+
+// const x = { n: 1 };
+// let y = x;
+// y = { n: 2 }; // yに別オブジェクトを再代入
+// y.n = 3;
+// console.log(x); // { n: 1 }
+
+// function change(y) {
+//   y.n = 2;
+// }
+// const x = { n: 1 };
+// change(x);
+// console.log(x);
