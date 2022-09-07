@@ -92,3 +92,38 @@
 
 // function foo(x = 1) {}
 // // (parameter) x: number
+
+/* ================================= */
+/* rest parameter                    */
+/* ================================= */
+
+// function func(...params) {
+//   // ...
+// }
+
+// function func(...params) {
+//   console.log(params);
+// }
+// func(1, 2, 3); // [ 1, 2, 3 ]
+
+// function func(param1, ...params) {
+//   console.log(param1, params);
+// }
+// func(1, 2, 3); // [ 1, 2, 3 ]
+
+// // 構文エラーになるコード
+// function func(...params1, ...params2) {}
+// function func(...params, param1) {}
+
+// function func(...params: number[]) {
+//   // ...
+// }
+
+// // console.log(Math.max(1, 10, 100)); // 100
+// const scores: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+// const highest = Math.max(scores);
+// // Argument of type 'number[]' is not assignable to parameter of type 'number'.
+
+// const scores: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+// const highest = Math.max(...scores);
+// console.log(highest); // 10
