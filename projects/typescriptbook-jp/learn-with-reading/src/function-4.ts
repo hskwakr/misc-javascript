@@ -53,3 +53,42 @@
 
 // function func(foo?: string, bar: string) {}
 // A required parameter cannot follow an optional parameter.
+
+/* ================================= */
+/* default parameter                 */
+/* ================================= */
+
+// // 関数宣言
+// function 関数名(引数 = デフォルト値) {}
+// // アロー関数
+// (引数 = デフォルト値) => {};
+
+// // 関数宣言
+// function 関数名(引数: 型 = デフォルト値) {}
+// // アロー関数
+// (引数: 型 = デフォルト値) => {};
+
+// function foo(x) {
+//   console.log(x);
+// }
+// foo(); // undefined
+
+// function foo(x = 1) {
+//   console.log(x);
+// }
+// foo(); // 1
+// foo(undefined); // 1
+
+// function foo(x = 1) {
+//   console.log(x);
+// }
+// foo(null); // null
+
+// function foo(x = 2 * 2) {}
+// function foo(x = parseInt("1.5")) {}
+
+// async function foo(x = await Promise.resolve(1)) {}
+// // 'await' expressions cannot be used in a parameter initializer.
+
+// function foo(x = 1) {}
+// // (parameter) x: number
