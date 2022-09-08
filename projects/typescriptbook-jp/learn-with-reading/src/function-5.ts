@@ -150,3 +150,93 @@
 
 // // プロパティ名を省略した呼び出し
 // bmi({ weight, height });
+
+/* ================================= */
+/* Keyword Argument                  */
+/* Options Object Pattern            */
+/* ================================= */
+
+// // 位置引数の関数
+// function normalFunc(x, y, z) {
+//   console.log(x, y, z);
+// }
+
+// // オブジェクトひとつだけを引数に持つ関数
+// function func(options) {
+//   console.log(options.x, options.y, options.z);
+// }
+
+// func({ x: 1, y: 2, z: 3 }); // 1 2 3
+
+// function func({ x, y, z }) {
+//   console.log(x, y, z);
+// }
+
+// function func({ x, y, z }: { x: number; y: number; z: number }) {
+//   console.log(x, y, z);
+// }
+
+// func({ x: 1, y: 2, z: 3 }); // 1 2 3
+
+// type Options = {
+//   x: number;
+//   y: number;
+//   z: number;
+// };
+// function func({ x, y, z }: Options) {
+//   // ...
+// }
+
+// findProducts(true, true, true);
+// findProducts({ isSale: true, withDetails: true, freeShipping: true });
+
+// findUsers("JP", "Tokyo", "id", "asc");
+// function findUsers(country, city, order, sort, ageMin, ageMax);
+// //                                             ^^^^^^^^^^^^^^追加
+// findUsers({ country: "JP", city: "Tokyo", order: "id", sort: "asc" });
+// findUsers({
+//   country: "JP",
+//   city: "Tokyo",
+//   ageMin: 10,
+//   ageMax: 20,
+//   order: "id",
+//   sort: "asc",
+// });
+
+// function findProducts(
+//   isSale = false,
+//   withDetails = false,
+//   freeShipping = false,
+// ) {
+//   console.log(isSale, withDetails, freeShipping);
+// }
+// findProducts(undefined, undefined, true);
+
+// function findProducts({
+//   isSale = false,
+//   withDetails = false,
+//   freeShipping = false,
+// }) {
+//   console.log(isSale, withDetails, freeShipping);
+// }
+// findProducts({ freeShipping: true });
+
+// function func({ hoge: fuga }) {
+//   console.log(fuga);
+// }
+// func({ hoge: 123 });
+
+// function func({ x, y = 0, z = 0 }: { x: number; y?: number; z?: number }) {
+//   console.log(x, y, z);
+// }
+// func({ x: 1, y: undefined });
+
+// type Options = {
+//   x?: number;
+//   y?: number;
+//   z?: number;
+// };
+// function func({ x = 0, y = 0, z = 0 }: Options = {}) {
+//   console.log(x, y, z);
+// }
+// func();
