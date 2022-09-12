@@ -1,2 +1,2 @@
-# misc-typescript
+# misc-javascript
  
