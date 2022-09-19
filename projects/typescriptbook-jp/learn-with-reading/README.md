@@ -1,4 +1,4 @@
-# [作って学ぶTypeScript | TypeScript入門『サバイバルTypeScript』](https://typescriptbook.jp/tutorials "作って学ぶTypeScript | TypeScript入門『サバイバルTypeScript』")
+# [読んで学ぶTypeScript | TypeScript入門『サバイバルTypeScript』](https://typescriptbook.jp/reference "読んで学ぶTypeScript | TypeScript入門『サバイバルTypeScript』")
 
 ```console
 yarn install
