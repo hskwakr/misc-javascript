@@ -62,3 +62,27 @@
 // }
 // const alice = new Person();
 // console.log(alice.name);
+
+// class Person {
+//   name: string | undefined;
+// }
+// const alice = new Person();
+// console.log(alice.name);
+
+// class Person {
+//   name: string;
+
+//   constructor() {
+//     this.name = "Alice";
+//   }
+// }
+
+// class Person {
+//   name: string;
+
+//   constructor(personName: string) {
+//     this.name = personName;
+//   }
+// }
+
+// const alice = new Person("Alice");
