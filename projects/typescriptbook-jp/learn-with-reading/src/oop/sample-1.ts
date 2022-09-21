@@ -86,3 +86,19 @@
 // }
 
 // const alice = new Person("Alice");
+
+/* ================================= */
+/* method                            */
+/* ================================= */
+
+// class Greeter {
+//   greet(name) {
+//     return `Hello, ${name}!`;
+//   }
+// }
+
+// class Greeter {
+//   greet(name: string): string {
+//     return `Hello, ${name}!`;
+//   }
+// }
