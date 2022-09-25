@@ -75,3 +75,19 @@
 //     this.name = newName;
 //   }
 // }
+
+/* ================================= */
+/* class is object                   */
+/* ================================= */
+
+// // javascript
+// const myObject = {};
+// myObject.key = "value"; // プロパティを追加
+
+// class MyClass {}
+// MyClass.key = "value"; // プロパティを追加
+
+// // typescript
+// class MyClass {}
+// MyClass.key = "value"; // error
+// // Property 'key' does not exist on type 'typeof MyClass'.
