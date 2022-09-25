@@ -47,3 +47,31 @@
 // // Property 'arg2' is protected and only accessible within class 'ConstructorOutAccessModifier' and its subclasses.
 // outAccess.arg3;
 // // Property 'arg3' is private and only accessible within class 'ConstructorOutAccessModifier'.
+
+/* ================================= */
+/* class                             */
+/* readonly                          */
+/* ================================= */
+
+// class Octopus {
+//   readonly name: string;
+
+//   readonly legs = 8; // フィールド初期化子での代入はOK
+
+//   constructor() {
+//     this.name = "たこちゃん"; // コンストラクターでの代入はOK
+//   }
+// }
+
+// const octopus = new Octopus();
+// octopus.legs = 16;
+// // Cannot assign to 'legs' because it is a read-only property.
+
+// class Octopus {
+//   readonly name = "たこちゃん";
+
+//   // Cannot assign to 'name' because it is a read-only property.
+//   setName(newName: string): void {
+//     this.name = newName;
+//   }
+// }
