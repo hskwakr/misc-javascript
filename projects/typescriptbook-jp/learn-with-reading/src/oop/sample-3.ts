@@ -1,3 +1,4 @@
+/* eslint-disable max-classes-per-file */
 /* eslint-disable max-len */
 /* ================================= */
 /* class                             */
@@ -141,3 +142,127 @@
 //     // ...
 //   }
 // }
+
+/* ================================= */
+/* class                             */
+/* method chaining                   */
+/* ================================= */
+
+// class Operator {
+//   protected value: number;
+
+//   public constructor(value: number) {
+//     this.value = value;
+//   }
+
+//   public sum(value: number): void {
+//     this.value += value;
+//   }
+
+//   public subtract(value: number): void {
+//     this.value -= value;
+//   }
+
+//   public multiply(value: number): void {
+//     this.value *= value;
+//   }
+
+//   public divide(value: number): void {
+//     this.value /= value;
+//   }
+// }
+
+// const op: Operator = new Operator(0);
+// op.sum(5); // 5
+// op.subtract(3); // 2
+// op.multiply(6); // 12
+// op.divide(3); // 4
+
+// class Operator {
+//   protected value: number;
+
+//   public constructor(value: number) {
+//     this.value = value;
+//   }
+
+//   public sum(value: number): Operator {
+//     this.value += value;
+//     return this;
+//   }
+
+//   public subtract(value: number): Operator {
+//     this.value -= value;
+//     return this;
+//   }
+
+//   public multiply(value: number): Operator {
+//     this.value *= value;
+//     return this;
+//   }
+
+//   public divide(value: number): Operator {
+//     this.value /= value;
+//     return this;
+//   }
+// }
+
+// // const op: Operator = new Operator(0);
+// // op.sum(5).subtract(3).multiply(6).divide(3); // 4
+
+// // eslint-disable-next-line @typescript-eslint/no-redeclare
+// class NewOperator extends Operator {
+//   public constructor(value: number) {
+//     super(value);
+//   }
+
+//   public power(value: number): NewOperator {
+//     this.value **= value;
+//     return this;
+//   }
+// }
+
+// const op: NewOperator = new NewOperator(2);
+// op.power(3).multiply(2).power(3);
+// // Property 'power' does not exist on type 'Operator'.
+
+// class Operator {
+//   protected value: number;
+
+//   public constructor(value: number) {
+//     this.value = value;
+//   }
+
+//   public sum(value: number): this {
+//     this.value += value;
+//     return this;
+//   }
+
+//   public subtract(value: number): this {
+//     this.value -= value;
+//     return this;
+//   }
+
+//   public multiply(value: number): this {
+//     this.value *= value;
+//     return this;
+//   }
+
+//   public divide(value: number): this {
+//     this.value /= value;
+//     return this;
+//   }
+// }
+
+// class NewOperator extends Operator {
+//   public constructor(value: number) {
+//     super(value);
+//   }
+
+//   public power(value: number): this {
+//     this.value **= value;
+//     return this;
+//   }
+// }
+
+// const op: NewOperator = new NewOperator(2);
+// op.power(3).multiply(2).power(3); // 4096
