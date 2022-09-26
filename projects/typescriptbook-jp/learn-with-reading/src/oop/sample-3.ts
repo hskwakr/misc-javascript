@@ -91,3 +91,27 @@
 // class MyClass {}
 // MyClass.key = "value"; // error
 // // Property 'key' does not exist on type 'typeof MyClass'.
+
+/* ================================= */
+/* class                             */
+/* static field                      */
+/* ================================= */
+
+// // javascript
+// class SomeClass {}
+// SomeClass.field = 123;
+// console.log(SomeClass.field);
+
+// // typescript
+// class SomeClass {
+//   static field: number = 123;
+// }
+// console.log(SomeClass.field);
+
+// class SomeClass {
+//   private static field: number;
+// }
+
+// class SomeClass {
+//   static readonly field: number;
+// }
