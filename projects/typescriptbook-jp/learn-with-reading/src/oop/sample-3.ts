@@ -115,3 +115,29 @@
 // class SomeClass {
 //   static readonly field: number;
 // }
+
+/* ================================= */
+/* class                             */
+/* static method                     */
+/* ================================= */
+
+// // javascript
+// class SomeClass {}
+// SomeClass.doSomething = function () {
+//   // ...
+// };
+// SomeClass.doSomething();
+
+// // typescript
+// class SomeClass {
+//   static doSomething() {
+//     // ...
+//   }
+// }
+// SomeClass.doSomething();
+
+// class SomeClass {
+//   private static doSomething() {
+//     // ...
+//   }
+// }
