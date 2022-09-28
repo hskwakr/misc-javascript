@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* ================================= */
 /* interface                         */
 /* ================================= */
@@ -192,3 +193,149 @@
 //   }
 //   return true;
 // }
+
+/* ================================= */
+/* interface vs type                 */
+/* ================================= */
+
+// type Animal = {
+//   name: string;
+//   bark(): string;
+// };
+
+// interface Animal {
+//   name: string;
+//   bark(): string;
+// }
+
+// interface Animal {
+//   name: string;
+// }
+// type Creature = {
+//   dna: string;
+// };
+
+// interface Dog extends Animal, Creature {
+//   dogType: string;
+// }
+
+// type Animal = {
+//   name: string;
+// };
+// type Creature = {
+//   dna: string;
+// };
+
+// type Dog = Animal &
+//   Creature & {
+//     dogType: string;
+//   };
+
+// // OK
+// interface Animal {
+//   name: any;
+//   price: {
+//     yen: number;
+//   };
+//   legCount: number;
+// }
+
+// interface Dog extends Animal {
+//   name: string;
+//   price: {
+//     yen: number;
+//     dollar: number;
+//   };
+// }
+
+// // 最終的なDogの定義
+// interface Dog {
+//   name: string;
+//   price: {
+//     yen: number;
+//     dollar: number;
+//   };
+//   legCount: number;
+// }
+
+// interface A {
+//   numberField: number;
+//   price: {
+//     yen: number;
+//     dollar: number;
+//   };
+// }
+
+// // Interface 'B' incorrectly extends interface 'A'.
+// // Types of property 'numberField' are incompatible.
+// // Type 'string' is not assignable to type 'number'.
+// interface B extends A {
+//   numberField: string;
+//   price: {
+//     yen: number;
+//     euro: number;
+//   };
+// }
+
+// type Animal = {
+//   name: number;
+//   price: {
+//     yen: number;
+//     dollar: number;
+//   };
+// };
+
+// type Dog = Animal & {
+//   name: string;
+//   price: {
+//     yen: number;
+//     euro: number;
+//   };
+// };
+
+// // 最終的なDogの定義
+// type Dog = {
+//   name: never; // 交差型作れない場合はコンパイルエラーではなくnever型になる
+//   price: {
+//     yen: number;
+//     dollar: number;
+//     euro: number;
+//   };
+// };
+
+// // error
+// type SameNameTypeWillError = {
+//   message: string;
+// };
+
+// type SameNameTypeWillError = {
+//   detail: string;
+// };
+
+// interface SameNameInterfaceIsAllowed {
+//   myField: string;
+//   sameNameSameTypeIsAllowed: number;
+//   sameNameDifferentTypeIsNotAllowed: string;
+// }
+
+// interface SameNameInterfaceIsAllowed {
+//   newField: string;
+//   sameNameSameTypeIsAllowed: number;
+// }
+
+// // Subsequent property declarations must have the same type.
+// // Property 'sameNameDifferentTypeIsNotAllowed' must be of type 'string', but here has type 'number'.
+// interface SameNameInterfaceIsAllowed {
+//   sameNameDifferentTypeIsNotAllowed: number;
+// }
+
+// type SystemSupportLanguage = "en" | "fr" | "it" | "es";
+// type Butterfly = {
+//   [key in SystemSupportLanguage]: string;
+// };
+
+// type SystemSupportLanguage = "en" | "fr" | "it" | "es";
+// interface Butterflly {
+//   [key in SystemSupportLanguage]: string;
+// }
+// // A mapped type may not declare properties or methods.
