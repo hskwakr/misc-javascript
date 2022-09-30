@@ -9,3 +9,14 @@
 // type Obj = { a: string; b: string; c: string };
 // type Keys = keyof Obj;
 // // => "a" | "b" | "c"
+
+/* ================================= */
+/* typeof                            */
+/* ================================= */
+
+// const point = { x: 135, y: 35 };
+// type Point = typeof point;
+// // type Point = {
+// //     x: number;
+// //     y: number;
+// // }
