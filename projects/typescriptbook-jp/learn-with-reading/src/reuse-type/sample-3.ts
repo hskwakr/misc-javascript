@@ -52,3 +52,38 @@
 // } & {
 //   name: string; // 追加のプロパティ
 // };
+
+/* ================================= */
+/* indexed access types              */
+/* ================================= */
+
+// type A = { foo: number };
+// type Foo = A["foo"];
+// // type Foo = number
+
+// type Person = { name: string; age: number };
+// type T = Person["name" | "age"];
+// // type T = string | number
+
+// type Foo = { a: number; b: string; c: boolean };
+// type T = Foo[keyof Foo];
+// // type T = string | number | boolean
+
+// type Account = { name: string };
+// type T = Account["password"];
+// // Property 'password' does not exist on type 'Account'.
+
+// type StringArray = string[];
+// type T = StringArray[number];
+// // type T = string
+
+// type MixedArray = (string | undefined)[];
+// type T = MixedArray[number];
+// // type T = string | undefined
+
+// const stateList = ["open", "closed"] as const;
+// type State = typeof stateList[number];
+// // type State = "open" | "closed"
+
+// type Tuple = [string, number];
+// type T = Tuple[0];
