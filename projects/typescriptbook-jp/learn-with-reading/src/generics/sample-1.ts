@@ -71,3 +71,28 @@
 // let str = chooseRandomly<string>(0, 1);
 // // Argument of type 'number' is not assignable to parameter of type 'string'.
 // str = str.toLowerCase();
+
+/* ================================= */
+/* built in libraries using generics */
+/* ================================= */
+
+// const numbers: Array<number> = [1, 2, 3, 4];
+// const numbers: number[] = [1, 2, 3, 4];
+
+// const textNumbers = ["1", "2", "3", "4"];
+// const numbers = textNumbers.map<number>(function (text: string) {
+//   return Number(text);
+// });
+
+// type Address = {
+//   country: string;
+//   postalCode: string;
+//   address1: string;
+// };
+// const addresses = new Map<string, Address>();
+// addresses.set("太郎", {
+//   country: "日本",
+//   postalCode: "8256405",
+//   address1: "東京都",
+// });
+// console.log(addresses.get("太郎"));
