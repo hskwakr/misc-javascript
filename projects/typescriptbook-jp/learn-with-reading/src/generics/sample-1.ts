@@ -180,3 +180,88 @@
 
 //   //...
 // }
+
+/* ================================= */
+/* default type parameter            */
+/* ================================= */
+
+// type MyErrorEvent<T> = {
+//   error: T;
+//   type: string;
+// };
+
+// class NetworkError extends Error {
+//   constructor(e?: string) {
+//     super(e);
+//     this.name = new.target.name;
+//   }
+// }
+
+// const errorEvent: MyErrorEvent<Error> = {
+//   error: new Error("エラーです"),
+//   type: "syntax",
+// };
+
+// const networkErrorEvent: MyErrorEvent<NetworkError> = {
+//   error: new NetworkError("ネットワークエラーです"),
+//   type: "network",
+// };
+
+// // 型 T が必須なので、MyErrorEvent<Error>と指定する必要がある。
+// const errorEvent: MyErrorEvent = {
+//   error: new Error("エラーです"),
+//   type: "syntax",
+// };
+
+// // デフォルト型引数を指定した事で Error の型指定を省略できる
+// const errorEvent: MyErrorEvent = {
+//   error: new Error("エラーです"),
+//   type: "syntax",
+// };
+
+// const networkErrorEvent: MyErrorEvent<NetworkError> = {
+//   error: new NetworkError("ネットワークエラーです"),
+//   type: "network",
+// };
+
+// type MyErrorEvent<T extends Error = SyntaxError> = {
+//   error: T;
+//   type: string;
+// };
+
+// interface Serializable<T extends string | number = bigint> {
+//   value: T;
+//   toString(): string;
+// }
+// // Type 'bigint' does not satisfy the constraint 'string | number'.
+
+// class Aubergine<A, B = A, C = B> {
+//   private readonly a: A;
+
+//   private readonly b: B;
+
+//   private readonly c: C;
+
+//   public constructor(a: A, b: B, c: C) {
+//     this.a = a;
+//     this.b = b;
+//     this.c = c;
+//   }
+//   // ...
+// }
+
+// // Type parameter defaults can only reference previously declared type parameters.
+// // Required type parameters may not follow optional type parameters.
+// class Aubergine<A = B, B, C = B> {
+//   private readonly a: A;
+
+//   private readonly b: B;
+
+//   private readonly c: C;
+
+//   public constructor(a: A, b: B, c: C) {
+//     this.a = a;
+//     this.b = b;
+//     this.c = c;
+//   }
+// }
