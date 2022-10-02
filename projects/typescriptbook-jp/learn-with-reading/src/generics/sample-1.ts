@@ -1,3 +1,4 @@
+/* eslint-disable max-classes-per-file */
 /* ================================= */
 /* generics                          */
 /* ================================= */
@@ -129,3 +130,53 @@
 
 // function compare<T, U>(a: T, b: U) {}
 // function makeKeyValuePair<TKey, TValue>(key: TKey, value: TValue) {}
+
+/* ================================= */
+/* type parameter constraint         */
+/* ================================= */
+
+// function changeBackgroundColor<T>(element: T) {
+//   // Property 'style' does not exist on type 'T'.(2339)
+//   element.style.backgroundColor = "red";
+//   return element;
+// }
+
+// function changeBackgroundColor<T>(element: T) {
+//   // any に型アサーションすればコンパイルエラーは回避できる
+//   // 型チェックされないのでバグの可能性
+//   (element as any).style.backgroundColor = "red";
+//   return element;
+// }
+
+// function changeBackgroundColor<T extends HTMLElement>(element: T) {
+//   element.style.backgroundColor = "red";
+//   return element;
+// }
+
+// interface ValueObject<T> {
+//   value: T;
+
+//   toString(): string;
+// }
+
+// class UserID implements ValueObject<number> {
+//   public value: number;
+
+//   public constructor(value: number) {
+//     this.value = value;
+//   }
+
+//   public toString(): string {
+//     return `${this.value}`;
+//   }
+// }
+
+// class Entity<ID extends ValueObject<unknown>> {
+//   private id: ID;
+
+//   public constructor(id: ID) {
+//     this.id = id;
+//   }
+
+//   //...
+// }
