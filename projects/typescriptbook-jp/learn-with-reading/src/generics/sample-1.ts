@@ -96,3 +96,36 @@
 //   address1: "東京都",
 // });
 // console.log(addresses.get("太郎"));
+
+/* ================================= */
+/* type variables                    */
+/* ================================= */
+
+// function printAndReturn<T>(value: T): T {
+//   console.log(value);
+//   return value;
+// }
+
+// function printAndReturn<T>(value: T): T {
+//   let values: T[] = []; // OK
+//   const doSomething = (value: T) => {}; // OK
+//   return value;
+// }
+// let value: T; // Cannot find name 'T'.
+
+// const value = printAndReturn<number>(123);
+
+// const value = printAndReturn<number>(123);
+// const value = printAndReturn(123);
+
+// function func1<T>(x: T) {}
+// function func2<Foo>(x: Foo) {}
+// function func3<fooBar>(x: fooBar) {}
+// function func4<$>(x: $) {}
+// function func5<かた>(x: かた) {}
+
+// function func1<1>(x: 1) {} // コンパイルエラー
+// function func2<class>(x: class) {} // コンパイルエラー
+
+// function compare<T, U>(a: T, b: U) {}
+// function makeKeyValuePair<TKey, TValue>(key: TKey, value: TValue) {}
