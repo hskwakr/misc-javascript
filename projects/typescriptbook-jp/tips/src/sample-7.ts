@@ -26,4 +26,3 @@
 
 // type Language = keyof typeof conf;
 // // type Language = "en" | "fr" | "es" | "ja" | "zh"
-
