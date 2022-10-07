@@ -1,1 +1,1 @@
-## [React Docs Beta](https://beta.reactjs.org/ "React Docs Beta")
+# [React Docs Beta](https://beta.reactjs.org/ "React Docs Beta")
