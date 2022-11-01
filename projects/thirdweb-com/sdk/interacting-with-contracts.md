@@ -10,3 +10,8 @@ Features implemented on your smart contract become available as functionality on
 
 Read from and write data to your smart contracts by providing:
 
+## Use Contract Features
+
+Any features you implemented are detected by the SDK, and can be utilized with convenience functions that get unlocked for you.
+
+For example, if your contract implements the `ERC721` featur, you can utilize all of the functions of the corresponding `erc721` in the SDK.
