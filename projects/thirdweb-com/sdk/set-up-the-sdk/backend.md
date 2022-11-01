@@ -16,7 +16,7 @@ THere are multiple different ways you can instantiate the SDK and use it, that v
 
 ## From a Private key
 
-THis instantiates the SDK with write-permissions directly from a wallet's private key.
+This instantiates the SDK with write-permissions directly from a wallet's private key.
 
 If you expose your private key, anyone can access your wallet's funds. Please proceed carefully.
 
