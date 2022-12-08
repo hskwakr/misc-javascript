@@ -3,7 +3,7 @@ class Department {
   // private name: string;
   private employees: string[] = [];
 
-  constructor(private id: string, public name: string) {
+  constructor(private readonly id: string, public name: string) {
     // this.name = name;
   }
 
@@ -12,6 +12,7 @@ class Department {
   }
 
   addEmployees(employee: string) {
+    // this.id = "d2"; // error
     this.employees.push(employee);
   }
 
