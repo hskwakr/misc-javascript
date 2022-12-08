@@ -1,8 +1,8 @@
-const userName = "Max";
+// const userName = "Max";
 // userName ="Maximilian" // error
 
-let age = 30;
-age = 29;
+// let age = 30;
+// age = 29;
 
 // function add(a: number, b: number) {
 //   let result;
@@ -43,7 +43,7 @@ activeHobbies.push(...hobbies);
 // console.log(activeHobbies);
 
 const person = {
-  name: "Max",
+  firstName: "Max",
   age: 30,
 };
 
@@ -51,10 +51,16 @@ const copiedPerson = { ...person };
 // console.log(copiedPerson);
 
 const add = (...numbers: number[]) => {
-  return numbers.reduce((curResult, curValue)=>{
-    return curResult + curValue
-  }, 0)
+  return numbers.reduce((curResult, curValue) => {
+    return curResult + curValue;
+  }, 0);
 };
 
 const addNumbers = add(5, 10, 2, 3.7);
-console.log(addNumbers);
+// console.log(addNumbers);
+
+const [hobby1, hobby2, ...remainingHobbies] = hobbies;
+// console.log(hobby1, hobby2, remainingHobbies);
+
+const { firstName: userName, age } = person;
+console.log(userName, age);
