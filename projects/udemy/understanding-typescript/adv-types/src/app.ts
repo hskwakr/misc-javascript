@@ -127,3 +127,31 @@ function moveAnimal(animal: Animal) {
 moveAnimal({ type: "bird", flyingSpeed: 10 });
 moveAnimal({ type: "horse", runningSpeed: 1 });
 // moveAnimal({ type: "bird", runningSpeed: 10 }); // error
+
+// Type Casting
+
+// const paragraph = document.querySelector("p");
+// const paragraph = document.getElementById("message-output");
+
+// const userInputElement = document.getElementById("user-input");
+// if (userInputElement) {
+//   userInputElement.value = "Hi there!"; // error
+// }
+
+// // example 1
+// const userInputElement = <HTMLInputElement>(
+//   document.getElementById("user-input")!
+// );
+// userInputElement.value = "Hi there!"; // ok
+
+// // example 2
+// const userInputElement = document.getElementById(
+//   "user-input"
+// )! as HTMLInputElement;
+// userInputElement.value = "Hi there!"; // ok
+
+// example 3
+const userInputElement = document.getElementById("user-input");
+if (userInputElement) {
+  (userInputElement as HTMLInputElement).value = "Hi there!"; // ok
+}
