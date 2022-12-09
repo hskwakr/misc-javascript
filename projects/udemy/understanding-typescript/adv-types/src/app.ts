@@ -93,8 +93,8 @@ function useVehicle(vehicle: Vehicle) {
   }
 }
 
-useVehicle(v1);
-useVehicle(v2);
+// useVehicle(v1);
+// useVehicle(v2);
 
 // Descriminated Unions
 // example 1
@@ -124,8 +124,8 @@ function moveAnimal(animal: Animal) {
   console.log("Moving with speed: " + speed);
 }
 
-moveAnimal({ type: "bird", flyingSpeed: 10 });
-moveAnimal({ type: "horse", runningSpeed: 1 });
+// moveAnimal({ type: "bird", flyingSpeed: 10 });
+// moveAnimal({ type: "horse", runningSpeed: 1 });
 // moveAnimal({ type: "bird", runningSpeed: 10 }); // error
 
 // Type Casting
@@ -192,3 +192,14 @@ const result1 = add(1, 2);
 const result2 = add("Max", "Schwarz");
 const result3 = add("Max", 10);
 const result4 = add(32, "Schwarz");
+
+// Optional Chaining
+
+const fetchedUserData = {
+  id: "u1",
+  name: "Max",
+  job: { title: "CEO", description: "My own company" },
+};
+
+// console.log(fetchedUserData.job && fetchedUserData.job.title);
+// console.log(fetchedUserData?.job?.title);
