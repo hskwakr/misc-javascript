@@ -19,7 +19,7 @@
 // user1.greet("Hi there - I am");
 
 interface Greetable {
-  name: string;
+  readonly name: string;
   greet(phrase: string): void;
 }
 
