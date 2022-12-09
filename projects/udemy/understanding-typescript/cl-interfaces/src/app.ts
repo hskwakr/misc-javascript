@@ -18,12 +18,15 @@
 
 // user1.greet("Hi there - I am");
 
-interface Greetable {
+interface AnotherInterface {}
+
+interface Named {
   readonly name: string;
-  greet(phrase: string): void;
 }
 
-interface AnotherInterface {}
+interface Greetable extends Named, AnotherInterface {
+  greet(phrase: string): void;
+}
 
 class Person implements Greetable, AnotherInterface {
   constructor(public name: string) {}
