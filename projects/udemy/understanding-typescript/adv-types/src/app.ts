@@ -203,3 +203,23 @@ const fetchedUserData = {
 
 // console.log(fetchedUserData.job && fetchedUserData.job.title);
 // console.log(fetchedUserData?.job?.title);
+
+// Nullish Coalescing
+
+// const userInput = null;
+// const storeData = userInput || "DEFAULT";
+// console.log(storeData); // DEFAULT
+
+// // want keep ""
+
+// const userInput = "";
+// const storeData = userInput || "DEFAULT";
+// console.log(storeData); // DEFAULT
+
+// const userInput = undefined;
+// const storeData = userInput ?? "DEFAULT";
+// console.log(storeData); // DEFAULT
+
+const userInput = "";
+const storeData = userInput ?? "DEFAULT";
+console.log(storeData); // ""
