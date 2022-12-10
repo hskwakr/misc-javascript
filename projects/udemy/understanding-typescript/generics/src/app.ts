@@ -155,3 +155,27 @@ function createCourseGoal(
 // Readonly
 const names: Readonly<string[]> = ["Max", "Anna"];
 // names.push("Manu"); // error
+
+// Generic Types vs Union Types
+
+// with union
+// you need to create same methods for each types
+class DataStorageWithUnion {
+  protected data: string[] | number[] | boolean[] = [];
+
+  // addItem(item: string | number | boolean) {
+  //   this.data.push(item); // error
+  // }
+
+  // removeItem(item: string | number | boolean) {
+  //   // error
+  //   if (this.data.indexOf(item) === -1) {
+  //     return;
+  //   }
+  //   this.data.splice(this.data.indexOf(item), 1);
+  // }
+
+  getItems() {
+    return [...this.data];
+  }
+}
