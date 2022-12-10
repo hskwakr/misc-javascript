@@ -32,3 +32,4 @@ function merge<T extends {}, U>(objA: T, objB: U) {
 }
 
 const mergedObj = merge({ name: "Max" }, { age: 30 });
+// console.log(mergedObj.age);
