@@ -103,7 +103,7 @@ const textStorage = new DataStorage<string>();
 textStorage.addItem("Max");
 textStorage.addItem("Manu");
 textStorage.removeItem("Max");
-console.log(textStorage.getItems());
+// console.log(textStorage.getItems());
 
 const numberStorage = new DataStorage<number>();
 
@@ -122,10 +122,36 @@ objStorage.addItem(maxObj);
 objStorage.addItem({ name: "Manu" });
 // ...
 objStorage.removeItem(maxObj);
-console.log(objStorage.getItems());
+// console.log(objStorage.getItems());
 
 class PrimitiveDataStorage<
   T extends string | number | boolean
 > extends DataStorage<T> {}
 
 const boolStorage = new PrimitiveDataStorage<boolean>();
+
+// Generic Utility Types
+
+// Partial
+interface CourseGoal {
+  title: string;
+  description: string;
+  completeUntil: Date;
+}
+
+function createCourseGoal(
+  title: string,
+  description: string,
+  date: Date
+): CourseGoal {
+  let courseGoal: Partial<CourseGoal> = {};
+  courseGoal.title = title;
+  courseGoal.description = description;
+  courseGoal.completeUntil = date;
+
+  return courseGoal as CourseGoal;
+}
+
+// Readonly
+const names: Readonly<string[]> = ["Max", "Anna"];
+// names.push("Manu"); // error
