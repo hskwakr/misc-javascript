@@ -59,9 +59,9 @@ function countAndDescribe<T extends Lengthy>(element: T): [T, string] {
   return [element, descriptionText];
 }
 
-console.log(countAndDescribe("Hi there!"));
-console.log(countAndDescribe(["Sports", "Cooking"]));
-console.log(countAndDescribe([]));
+// console.log(countAndDescribe("Hi there!"));
+// console.log(countAndDescribe(["Sports", "Cooking"]));
+// console.log(countAndDescribe([]));
 // console.log(countAndDescribe(10)); // error
 
 // The "keyof" Constraint
@@ -76,4 +76,56 @@ function extractAndConvert<T extends object, U extends keyof T>(
   return "Value: " + obj[key];
 }
 
-console.log(extractAndConvert({ name: "Max" }, "name"));
+// console.log(extractAndConvert({ name: "Max" }, "name"));
+
+// Generic Classes
+
+class DataStorage<T> {
+  protected data: T[] = [];
+
+  addItem(item: T) {
+    this.data.push(item);
+  }
+
+  removeItem(item: T) {
+    if (this.data.indexOf(item) === -1) {
+      return;
+    }
+    this.data.splice(this.data.indexOf(item), 1);
+  }
+
+  getItems() {
+    return [...this.data];
+  }
+}
+
+const textStorage = new DataStorage<string>();
+textStorage.addItem("Max");
+textStorage.addItem("Manu");
+textStorage.removeItem("Max");
+console.log(textStorage.getItems());
+
+const numberStorage = new DataStorage<number>();
+
+// // problem with object
+// const objStorage = new DataStorage<object>();
+// objStorage.addItem({ name: "Max" });
+// objStorage.addItem({ name: "Manu" });
+// // ...
+// objStorage.removeItem({ name: "Max" });
+// console.log(objStorage.getItems()); // bug: Max not removed
+
+// solution with object
+const objStorage = new DataStorage<object>();
+const maxObj = { name: "Max" };
+objStorage.addItem(maxObj);
+objStorage.addItem({ name: "Manu" });
+// ...
+objStorage.removeItem(maxObj);
+console.log(objStorage.getItems());
+
+class PrimitiveDataStorage<
+  T extends string | number | boolean
+> extends DataStorage<T> {}
+
+const boolStorage = new PrimitiveDataStorage<boolean>();
