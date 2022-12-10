@@ -63,3 +63,17 @@ console.log(countAndDescribe("Hi there!"));
 console.log(countAndDescribe(["Sports", "Cooking"]));
 console.log(countAndDescribe([]));
 // console.log(countAndDescribe(10)); // error
+
+// The "keyof" Constraint
+
+// function extractAndConvert(obj: object, key: string) {
+//   return obj[key]; // error
+// }
+function extractAndConvert<T extends object, U extends keyof T>(
+  obj: T,
+  key: U
+) {
+  return "Value: " + obj[key];
+}
+
+console.log(extractAndConvert({ name: "Max" }, "name"));
