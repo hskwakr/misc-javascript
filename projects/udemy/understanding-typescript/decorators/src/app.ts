@@ -26,18 +26,18 @@ function WithTemplate(template: string, hookId: string) {
 
 // Adding Multiple Decorators
 
-@Logger("LOGGING - PERSON")
-@WithTemplate("<h1>My Person Object</h1>", "app")
-class Person {
-  name = "Max";
+// @Logger("LOGGING - PERSON")
+// @WithTemplate("<h1>My Person Object</h1>", "app")
+// class Person {
+//   name = "Max";
 
-  constructor() {
-    console.log("Creating person object...");
-  }
-}
+//   constructor() {
+//     console.log("Creating person object...");
+//   }
+// }
 
-const p = new Person();
-console.log(p);
+// const p = new Person();
+// console.log(p);
 
 // Diving into Property Decorators
 
@@ -97,3 +97,38 @@ class Product {
     return this._price * (1 + tax);
   }
 }
+
+// Returning (and changing) a Class in a Class Decorator
+
+function WithTemplate2(template: string, hookId: string) {
+  console.log("TEMPLATE FACTORY 2");
+
+  return function <T extends { new (..._: any[]): { name: string } }>(
+    originalConstructor: T
+  ) {
+    return class extends originalConstructor {
+      constructor(..._: any[]) {
+        super();
+        console.log("Rendering template...");
+        const hookEl = document.getElementById(hookId);
+
+        if (hookEl) {
+          hookEl.innerHTML = template;
+          hookEl.querySelector("h1")!.textContent = this.name;
+        }
+      }
+    };
+  };
+}
+
+@WithTemplate2("<h1>My Person Object</h1>", "app")
+class Person2 {
+  name = "Max";
+
+  constructor() {
+    console.log("Creating person object...");
+  }
+}
+
+const p = new Person2();
+console.log(p);
