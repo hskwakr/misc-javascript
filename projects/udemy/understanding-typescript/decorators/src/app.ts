@@ -130,5 +130,43 @@ class Person2 {
   }
 }
 
-const p = new Person2();
-console.log(p);
+// const p = new Person2();
+// console.log(p);
+
+// Example: Creating an "Autobind" Decorator
+
+function Autobind(
+  _: any,
+  _2: string | Symbol | number,
+  descriptor: PropertyDescriptor
+) {
+  const originalMethod = descriptor.value;
+  const adjustDescriptor: PropertyDescriptor = {
+    configurable: true,
+    enumerable: false,
+    get() {
+      const boundFn = originalMethod.bind(this);
+      return boundFn;
+    },
+  };
+
+  return adjustDescriptor;
+}
+
+class Printer {
+  message = "This works!";
+
+  @Autobind
+  showMessage() {
+    console.log(this.message);
+  }
+}
+
+const printer = new Printer();
+
+const button = document.querySelector("button");
+if (button) {
+  // button.addEventListener("click", printer.showMessage.bind(printer));
+  // with Autobind Decorator
+  button.addEventListener("click", printer.showMessage);
+}
