@@ -1,3 +1,20 @@
+// Autobind decorator
+function Autobind(
+  _1: any,
+  _2: string | Symbol | number,
+  descriptor: PropertyDescriptor
+) {
+  const originalMethod = descriptor.value;
+  const adjustableDescriptor: PropertyDescriptor = {
+    get() {
+      const boundFn = originalMethod.bind(this);
+      return boundFn;
+    },
+  };
+  return adjustableDescriptor;
+}
+
+// ProjectInput Class
 class ProjectInput {
   // Template element which have form componet
   templateElement: HTMLTemplateElement;
@@ -54,15 +71,19 @@ class ProjectInput {
     this.attach();
   }
 
+  // Handle form submit event
+  @Autobind
   private submitHandler(event: Event) {
     event.preventDefault();
     console.log(this.titleInputElement.value);
   }
 
+  // Set up event listeners
   private configure() {
-    this.element.addEventListener('submit', this.submitHandler.bind(this));
+    this.element.addEventListener('submit', this.submitHandler);
   }
 
+  // Attach into host element to display the element
   private attach() {
     this.hostElement.insertAdjacentElement('afterbegin', this.element);
   }
