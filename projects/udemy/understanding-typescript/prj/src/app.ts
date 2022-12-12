@@ -83,7 +83,7 @@ class ProjectInput {
     this.element.addEventListener('submit', this.submitHandler);
   }
 
-  // Attach into host element to display the element
+  // Attach the element into host element to display
   private attach() {
     this.hostElement.insertAdjacentElement('afterbegin', this.element);
   }
