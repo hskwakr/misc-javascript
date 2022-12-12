@@ -71,11 +71,42 @@ class ProjectInput {
     this.attach();
   }
 
+  // Gather user inputs into one
+  private gatherUserInput(): [string, string, number] | undefined {
+    const enteredTitle = this.titleInputElement.value;
+    const enteredDescription = this.descriptionInputElement.value;
+    const enteredPeople = this.peopleInputElement.value;
+
+    if (
+      enteredTitle.trim().length === 0 ||
+      enteredDescription.trim().length === 0 ||
+      enteredPeople.trim().length === 0
+    ) {
+      return;
+    }
+
+    return [enteredTitle, enteredDescription, +enteredPeople];
+  }
+
+  // Clear every form input fields
+  private clearInputs() {
+    this.titleInputElement.value = '';
+    this.descriptionInputElement.value = '';
+    this.peopleInputElement.value = '';
+  }
+
   // Handle form submit event
   @Autobind
   private submitHandler(event: Event) {
     event.preventDefault();
-    console.log(this.titleInputElement.value);
+
+    const userInput = this.gatherUserInput();
+    if (Array.isArray(userInput)) {
+      const [title, descption, people] = userInput;
+      console.log(title, descption, people);
+
+      this.clearInputs();
+    }
   }
 
   // Set up event listeners
