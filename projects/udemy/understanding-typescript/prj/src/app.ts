@@ -1,3 +1,52 @@
+// Project State Management
+class ProjectState {
+  // State of projects
+  private projects: any[] = [];
+
+  // Subscription
+  private listeners: any[] = [];
+  // Singleton
+  private static instance: ProjectState;
+
+  private constructor() {}
+
+  // Get the instance
+  // The instance should be unique
+  static getInstance() {
+    if (this.instance) {
+      return this.instance;
+    }
+
+    this.instance = new ProjectState();
+    return this.instance;
+  }
+
+  // Add a listener to get subscription
+  // when the state is changed
+  addListener(listenerFn: Function) {
+    this.listeners.push(listenerFn);
+  }
+
+  // Add a project to the project list
+  addProject(title: string, description: string, numOfPeople: number) {
+    const newProject = {
+      id: Math.random().toString(),
+      title: title,
+      description: description,
+      people: numOfPeople,
+    };
+    this.projects.push(newProject);
+
+    // Call listerners functions
+    for (const listenerFn of this.listeners) {
+      listenerFn(this.projects.slice());
+    }
+  }
+}
+
+// Global state to manage project list
+const projectState = ProjectState.getInstance();
+
 // Validation
 interface ValidatableContext {
   type: 'number' | 'string';
@@ -107,7 +156,13 @@ class ProjectList {
   // Element to attacth to host element
   element: HTMLElement;
 
+  // Project list from global state
+  assignedProjects: any[];
+
   constructor(private type: 'active' | 'finished') {
+    // Initialize
+    this.assignedProjects = [];
+
     // Get template element
     const templateEl = document.getElementById('project-list');
     if (templateEl) {
@@ -140,8 +195,30 @@ class ProjectList {
     }
     this.element.id = `${this.type}-projects`;
 
+    // Register listener function to get global state
+    projectState.addListener((projects: any[]) => {
+      this.assignedProjects = projects;
+      this.renderProjects();
+    });
+
     this.attach();
     this.renderContent();
+  }
+
+  // Update the display of project list
+  private renderProjects() {
+    const listEl = document.getElementById(
+      `${this.type}-project-list`
+    ) as HTMLUListElement | null;
+    if (!listEl) {
+      throw new Error('Unexpected calling to render projects');
+    }
+
+    for (const prjItem of this.assignedProjects) {
+      const listItem = document.createElement('li');
+      listItem.textContent = prjItem.title;
+      listEl.appendChild(listItem);
+    }
   }
 
   // Fill the content
@@ -289,8 +366,11 @@ class ProjectInput {
     const userInput = this.gatherUserInput();
     if (Array.isArray(userInput)) {
       const [title, descption, people] = userInput;
-      console.log(title, descption, people);
 
+      // Set to global state
+      projectState.addProject(title, descption, people);
+
+      // Clear inputs
       this.clearInputs();
     }
   }
