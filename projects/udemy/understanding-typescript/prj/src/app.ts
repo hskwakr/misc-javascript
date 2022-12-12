@@ -185,19 +185,22 @@ class ProjectInput {
       max: 5,
     };
 
+    // Validate
     const [titleIsValid, titleErrors] = validate(titleValidatable);
     const [descriptionIsValid, descptionErrors] = validate(
       descriptionValidatable
     );
     const [peopleIsValid, peopleErrors] = validate(peopleValidatable);
 
-    const formIsValid = titleIsValid && descriptionIsValid && peopleIsValid;
-    if (!formIsValid) {
+    // Check validation result
+    const isValid = titleIsValid && descriptionIsValid && peopleIsValid;
+    if (!isValid) {
       const errors = titleErrors.concat(descptionErrors).concat(peopleErrors);
 
       const errorMessages = errors.map((v) => ' ' + v);
-
       const message = 'Invalid input, please try again:' + errorMessages;
+      
+      // Show error message
       alert(message);
       return;
     }
