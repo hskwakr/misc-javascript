@@ -1,6 +1,7 @@
 // Validation
 interface ValidatableContext {
   type: 'number' | 'string';
+  name: string;
   value: string;
   required?: boolean;
 }
@@ -19,40 +20,66 @@ interface ValidatableString extends ValidatableContext {
 
 type Validatable = ValidatableNumber | ValidatableString;
 
-function validate(validatableInput: Validatable) {
+function validate(validatableInput: Validatable): [boolean, string[]] {
   let isValid = true;
+  let errors: string[] = [];
 
   // Check for general rule
   if (validatableInput.required) {
-    isValid = isValid && validatableInput.value.trim().length !== 0;
+    const isRequired = validatableInput.value.trim().length !== 0;
+    isValid = isValid && isRequired;
+    if (!isRequired) {
+      errors.push(`the property ${validatableInput.name} must be present`);
+    }
   }
 
   // Check for string rule
   if (validatableInput.type === 'string') {
     if (validatableInput.minLength != null) {
-      console.log(validatableInput.value.length);
-      isValid =
-        isValid && validatableInput.value.length >= validatableInput.minLength;
+      const isGreater =
+        validatableInput.value.length >= validatableInput.minLength;
+      isValid = isValid && isGreater;
+      if (!isGreater) {
+        errors.push(
+          `the property ${validatableInput.name} must have a length greater than ${validatableInput.minLength}`
+        );
+      }
     }
     if (validatableInput.maxLength != null) {
-      isValid =
-        isValid && validatableInput.value.length <= validatableInput.maxLength;
+      const isLower =
+        validatableInput.value.length <= validatableInput.maxLength;
+      isValid = isValid && isLower;
+      if (!isLower) {
+        errors.push(
+          `the property ${validatableInput.name} must have a length lower than ${validatableInput.maxLength}`
+        );
+      }
     }
   }
 
   // Check for number rule
   if (validatableInput.type === 'number') {
     if (validatableInput.min != null) {
-      isValid =
-        isValid && Number(validatableInput.value) >= validatableInput.min;
+      const isGreater = Number(validatableInput.value) >= validatableInput.min;
+      isValid = isValid && isGreater;
+      if (!isGreater) {
+        errors.push(
+          `the property ${validatableInput.name} must have a value greater than ${validatableInput.min}`
+        );
+      }
     }
     if (validatableInput.max != null) {
-      isValid =
-        isValid && Number(validatableInput.value) <= validatableInput.max;
+      const isLower = Number(validatableInput.value) <= validatableInput.max;
+      isValid = isValid && isLower;
+      if (!isLower) {
+        errors.push(
+          `the property ${validatableInput.name} must have a value lower than ${validatableInput.min}`
+        );
+      }
     }
   }
 
-  return isValid;
+  return [isValid, errors];
 }
 
 // Autobind decorator
@@ -138,30 +165,40 @@ class ProjectInput {
     // Define validate condition
     const titleValidatable: ValidatableString = {
       type: 'string',
+      name: 'title',
       value: enteredTitle,
       required: true,
     };
     const descriptionValidatable: ValidatableString = {
       type: 'string',
+      name: 'description',
       value: enteredDescription,
       required: true,
       minLength: 5,
     };
     const peopleValidatable: ValidatableNumber = {
       type: 'number',
+      name: 'people',
       value: enteredPeople,
       required: true,
       min: 1,
       max: 5,
     };
 
-    const titleIsValid = validate(titleValidatable);
-    const descriptionIsValid = validate(descriptionValidatable);
-    const peopleIsValid = validate(peopleValidatable);
+    const [titleIsValid, titleErrors] = validate(titleValidatable);
+    const [descriptionIsValid, descptionErrors] = validate(
+      descriptionValidatable
+    );
+    const [peopleIsValid, peopleErrors] = validate(peopleValidatable);
 
     const formIsValid = titleIsValid && descriptionIsValid && peopleIsValid;
     if (!formIsValid) {
-      alert('Invalid input, please try again.');
+      const errors = titleErrors.concat(descptionErrors).concat(peopleErrors);
+
+      const errorMessages = errors.map((v) => ' ' + v);
+
+      const message = 'Invalid input, please try again:' + errorMessages;
+      alert(message);
       return;
     }
 
