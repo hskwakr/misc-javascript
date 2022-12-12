@@ -1,3 +1,60 @@
+// Validation
+interface ValidatableContext {
+  type: 'number' | 'string';
+  value: string;
+  required?: boolean;
+}
+
+interface ValidatableNumber extends ValidatableContext {
+  type: 'number';
+  min?: number;
+  max?: number;
+}
+
+interface ValidatableString extends ValidatableContext {
+  type: 'string';
+  minLength?: number;
+  maxLength?: number;
+}
+
+type Validatable = ValidatableNumber | ValidatableString;
+
+function validate(validatableInput: Validatable) {
+  let isValid = true;
+
+  // Check for general rule
+  if (validatableInput.required) {
+    isValid = isValid && validatableInput.value.trim().length !== 0;
+  }
+
+  // Check for string rule
+  if (validatableInput.type === 'string') {
+    if (validatableInput.minLength != null) {
+      console.log(validatableInput.value.length);
+      isValid =
+        isValid && validatableInput.value.length >= validatableInput.minLength;
+    }
+    if (validatableInput.maxLength != null) {
+      isValid =
+        isValid && validatableInput.value.length <= validatableInput.maxLength;
+    }
+  }
+
+  // Check for number rule
+  if (validatableInput.type === 'number') {
+    if (validatableInput.min != null) {
+      isValid =
+        isValid && Number(validatableInput.value) >= validatableInput.min;
+    }
+    if (validatableInput.max != null) {
+      isValid =
+        isValid && Number(validatableInput.value) <= validatableInput.max;
+    }
+  }
+
+  return isValid;
+}
+
 // Autobind decorator
 function Autobind(
   _1: any,
@@ -73,15 +130,38 @@ class ProjectInput {
 
   // Gather user inputs into one
   private gatherUserInput(): [string, string, number] | undefined {
+    // Get user inputs from elements
     const enteredTitle = this.titleInputElement.value;
     const enteredDescription = this.descriptionInputElement.value;
     const enteredPeople = this.peopleInputElement.value;
 
-    if (
-      enteredTitle.trim().length === 0 ||
-      enteredDescription.trim().length === 0 ||
-      enteredPeople.trim().length === 0
-    ) {
+    // Define validate condition
+    const titleValidatable: ValidatableString = {
+      type: 'string',
+      value: enteredTitle,
+      required: true,
+    };
+    const descriptionValidatable: ValidatableString = {
+      type: 'string',
+      value: enteredDescription,
+      required: true,
+      minLength: 5,
+    };
+    const peopleValidatable: ValidatableNumber = {
+      type: 'number',
+      value: enteredPeople,
+      required: true,
+      min: 1,
+      max: 5,
+    };
+
+    const titleIsValid = validate(titleValidatable);
+    const descriptionIsValid = validate(descriptionValidatable);
+    const peopleIsValid = validate(peopleValidatable);
+
+    const formIsValid = titleIsValid && descriptionIsValid && peopleIsValid;
+    if (!formIsValid) {
+      alert('Invalid input, please try again.');
       return;
     }
 
