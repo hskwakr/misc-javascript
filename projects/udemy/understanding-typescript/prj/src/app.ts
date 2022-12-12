@@ -98,6 +98,67 @@ function Autobind(
   return adjustableDescriptor;
 }
 
+// ProjectList Class
+class ProjectList {
+  // Template element which have form componet
+  templateElement: HTMLTemplateElement;
+  // Element to display
+  hostElement: HTMLDivElement;
+  // Element to attacth to host element
+  element: HTMLElement;
+
+  constructor(private type: 'active' | 'finished') {
+    // Get template element
+    const templateEl = document.getElementById('project-list');
+    if (templateEl) {
+      this.templateElement = templateEl as HTMLTemplateElement;
+    } else {
+      throw new Error('Missing Template Element');
+    }
+
+    // Get host element
+    const hostEl = document.getElementById('app');
+    if (hostEl) {
+      this.hostElement = hostEl as HTMLDivElement;
+    } else {
+      throw new Error('Missing App Element');
+    }
+
+    // Get contents of templete element
+    const importedNode = document.importNode(
+      this.templateElement.content,
+      true
+    );
+
+    // Get the element to attach
+    // The first element in contents should be select element
+    const el = importedNode.firstElementChild;
+    if (el) {
+      this.element = el as HTMLElement;
+    } else {
+      throw new Error('Missing Element To Attach');
+    }
+    this.element.id = `${this.type}-projects`;
+
+    this.attach();
+    this.renderContent();
+  }
+
+  // Fill the content
+  private renderContent() {
+    const listId = `${this.type}-project-list`;
+
+    this.element.querySelector('ul')!.id = listId;
+    this.element.querySelector('h2')!.textContent =
+      this.type.toUpperCase() + ' PROJECTS';
+  }
+
+  // Attach the element into host element to display
+  private attach() {
+    this.hostElement.insertAdjacentElement('beforeend', this.element);
+  }
+}
+
 // ProjectInput Class
 class ProjectInput {
   // Template element which have form componet
@@ -137,7 +198,12 @@ class ProjectInput {
 
     // Get the element to attach
     // The first element in contents should be form element
-    this.element = importedNode.firstElementChild as HTMLFormElement;
+    const el = importedNode.firstElementChild;
+    if (el) {
+      this.element = el as HTMLFormElement;
+    } else {
+      throw new Error('Missing Element To Attach');
+    }
     this.element.id = 'user-input';
 
     // Get form components
@@ -199,7 +265,7 @@ class ProjectInput {
 
       const errorMessages = errors.map((v) => ' ' + v);
       const message = 'Invalid input, please try again:' + errorMessages;
-      
+
       // Show error message
       alert(message);
       return;
@@ -241,3 +307,5 @@ class ProjectInput {
 }
 
 const prjInput = new ProjectInput();
+const activePrgList = new ProjectList('active');
+const finishPrgList = new ProjectList('finished');
