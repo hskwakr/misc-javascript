@@ -14,19 +14,30 @@ class Project {
   ) {}
 }
 
-// Project State Management
-type Listener = (items: Project[]) => void;
+// State Management
+type Listener<T> = (items: T[]) => void;
 
-class ProjectState {
+abstract class State<T> {
+  // Subscription
+  protected listeners: Listener<T>[] = [];
+
+  // Add a listener to get subscription
+  // when the state is changed
+  addListener(listenerFn: Listener<T>) {
+    this.listeners.push(listenerFn);
+  }
+}
+
+class ProjectState extends State<Project> {
   // State of projects
   private projects: Project[] = [];
 
-  // Subscription
-  private listeners: any[] = [];
   // Singleton
   private static instance: ProjectState;
 
-  private constructor() {}
+  private constructor() {
+    super();
+  }
 
   // Get the instance
   // The instance should be unique
@@ -37,12 +48,6 @@ class ProjectState {
 
     this.instance = new ProjectState();
     return this.instance;
-  }
-
-  // Add a listener to get subscription
-  // when the state is changed
-  addListener(listenerFn: Listener) {
-    this.listeners.push(listenerFn);
   }
 
   // Add a project to the project list
@@ -166,24 +171,23 @@ function Autobind(
   return adjustableDescriptor;
 }
 
-// ProjectList Class
-class ProjectList {
+// Component Base Class
+abstract class Component<T extends HTMLElement, U extends HTMLElement> {
   // Template element which have form componet
   templateElement: HTMLTemplateElement;
   // Element to display
-  hostElement: HTMLDivElement;
+  hostElement: T;
   // Element to attacth to host element
-  element: HTMLElement;
+  element: U;
 
-  // Project list from global state
-  assignedProjects: Project[];
-
-  constructor(private type: 'active' | 'finished') {
-    // Initialize
-    this.assignedProjects = [];
-
+  constructor(
+    tempateId: string,
+    hostElementId: string,
+    insertAtStart: boolean,
+    newElementId?: string
+  ) {
     // Get template element
-    const templateEl = document.getElementById('project-list');
+    const templateEl = document.getElementById(tempateId);
     if (templateEl) {
       this.templateElement = templateEl as HTMLTemplateElement;
     } else {
@@ -191,9 +195,9 @@ class ProjectList {
     }
 
     // Get host element
-    const hostEl = document.getElementById('app');
+    const hostEl = document.getElementById(hostElementId);
     if (hostEl) {
-      this.hostElement = hostEl as HTMLDivElement;
+      this.hostElement = hostEl as T;
     } else {
       throw new Error('Missing App Element');
     }
@@ -205,30 +209,46 @@ class ProjectList {
     );
 
     // Get the element to attach
-    // The first element in contents should be select element
     const el = importedNode.firstElementChild;
     if (el) {
-      this.element = el as HTMLElement;
+      this.element = el as U;
     } else {
       throw new Error('Missing Element To Attach');
     }
-    this.element.id = `${this.type}-projects`;
 
-    // Register listener function to get global state
-    projectState.addListener((projects: Project[]) => {
-      const relevantProjects = projects.filter((prj) => {
-        switch (this.type) {
-          case 'active':
-            return prj.status === ProjectStatus.Active;
-          case 'finished':
-            return prj.status === ProjectStatus.Finished;
-        }
-      });
-      this.assignedProjects = relevantProjects;
-      this.renderProjects();
-    });
+    // Set the element id
+    if (newElementId) {
+      this.element.id = newElementId;
+    }
 
-    this.attach();
+    this.attach(insertAtStart);
+  }
+
+  // Attach the element into host element to display
+  private attach(insertAtBeginning: boolean) {
+    this.hostElement.insertAdjacentElement(
+      insertAtBeginning ? 'afterbegin' : 'beforeend',
+      this.element
+    );
+  }
+
+  // Congigure the component
+  abstract configure(): void;
+  // Fill the content
+  abstract renderContent(): void;
+}
+
+// ProjectList Class
+class ProjectList extends Component<HTMLDivElement, HTMLElement> {
+  // Project list from global state
+  assignedProjects: Project[];
+
+  constructor(private type: 'active' | 'finished') {
+    super('project-list', 'app', false, `${type}-projects`);
+    // Initialize
+    this.assignedProjects = [];
+
+    this.configure();
     this.renderContent();
   }
 
@@ -252,67 +272,42 @@ class ProjectList {
     }
   }
 
+  // Set up event listeners
+  configure() {
+    // Register listener function to get global state
+    projectState.addListener((projects: Project[]) => {
+      const relevantProjects = projects.filter((prj) => {
+        switch (this.type) {
+          case 'active':
+            return prj.status === ProjectStatus.Active;
+          case 'finished':
+            return prj.status === ProjectStatus.Finished;
+        }
+      });
+      this.assignedProjects = relevantProjects;
+      this.renderProjects();
+    });
+  }
+
   // Fill the content
-  private renderContent() {
+  renderContent() {
     const listId = `${this.type}-project-list`;
 
     this.element.querySelector('ul')!.id = listId;
     this.element.querySelector('h2')!.textContent =
       this.type.toUpperCase() + ' PROJECTS';
   }
-
-  // Attach the element into host element to display
-  private attach() {
-    this.hostElement.insertAdjacentElement('beforeend', this.element);
-  }
 }
 
 // ProjectInput Class
-class ProjectInput {
-  // Template element which have form componet
-  templateElement: HTMLTemplateElement;
-  // Element to display
-  hostElement: HTMLDivElement;
-  // Element to attacth to host element
-  element: HTMLFormElement;
-
+class ProjectInput extends Component<HTMLDivElement, HTMLFormElement> {
   // Form components
   titleInputElement: HTMLInputElement;
   descriptionInputElement: HTMLInputElement;
   peopleInputElement: HTMLInputElement;
 
   constructor() {
-    // Get template element
-    const templateEl = document.getElementById('project-input');
-    if (templateEl) {
-      this.templateElement = templateEl as HTMLTemplateElement;
-    } else {
-      throw new Error('Missing Template Element');
-    }
-
-    // Get host element
-    const hostEl = document.getElementById('app');
-    if (hostEl) {
-      this.hostElement = hostEl as HTMLDivElement;
-    } else {
-      throw new Error('Missing App Element');
-    }
-
-    // Get contents of templete element
-    const importedNode = document.importNode(
-      this.templateElement.content,
-      true
-    );
-
-    // Get the element to attach
-    // The first element in contents should be form element
-    const el = importedNode.firstElementChild;
-    if (el) {
-      this.element = el as HTMLFormElement;
-    } else {
-      throw new Error('Missing Element To Attach');
-    }
-    this.element.id = 'user-input';
+    super('project-input', 'app', true, 'user-input');
 
     // Get form components
     this.titleInputElement = this.element.querySelector(
@@ -326,7 +321,6 @@ class ProjectInput {
     ) as HTMLInputElement;
 
     this.configure();
-    this.attach();
   }
 
   // Gather user inputs into one
@@ -407,14 +401,11 @@ class ProjectInput {
   }
 
   // Set up event listeners
-  private configure() {
+  configure() {
     this.element.addEventListener('submit', this.submitHandler);
   }
 
-  // Attach the element into host element to display
-  private attach() {
-    this.hostElement.insertAdjacentElement('afterbegin', this.element);
-  }
+  renderContent() {}
 }
 
 const prjInput = new ProjectInput();
