@@ -1,7 +1,25 @@
+// Project Type
+enum ProjectStatus {
+  Active,
+  Finished,
+}
+
+class Project {
+  constructor(
+    public id: string,
+    public title: string,
+    public description: string,
+    public people: number,
+    public status: ProjectStatus
+  ) {}
+}
+
 // Project State Management
+type Listener = (items: Project[]) => void;
+
 class ProjectState {
   // State of projects
-  private projects: any[] = [];
+  private projects: Project[] = [];
 
   // Subscription
   private listeners: any[] = [];
@@ -23,18 +41,19 @@ class ProjectState {
 
   // Add a listener to get subscription
   // when the state is changed
-  addListener(listenerFn: Function) {
+  addListener(listenerFn: Listener) {
     this.listeners.push(listenerFn);
   }
 
   // Add a project to the project list
   addProject(title: string, description: string, numOfPeople: number) {
-    const newProject = {
-      id: Math.random().toString(),
-      title: title,
-      description: description,
-      people: numOfPeople,
-    };
+    const newProject = new Project(
+      Math.random().toString(),
+      title,
+      description,
+      numOfPeople,
+      ProjectStatus.Active
+    );
     this.projects.push(newProject);
 
     // Call listerners functions
@@ -157,7 +176,7 @@ class ProjectList {
   element: HTMLElement;
 
   // Project list from global state
-  assignedProjects: any[];
+  assignedProjects: Project[];
 
   constructor(private type: 'active' | 'finished') {
     // Initialize
@@ -196,7 +215,7 @@ class ProjectList {
     this.element.id = `${this.type}-projects`;
 
     // Register listener function to get global state
-    projectState.addListener((projects: any[]) => {
+    projectState.addListener((projects: Project[]) => {
       this.assignedProjects = projects;
       this.renderProjects();
     });
