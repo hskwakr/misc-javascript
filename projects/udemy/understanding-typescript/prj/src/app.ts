@@ -216,7 +216,15 @@ class ProjectList {
 
     // Register listener function to get global state
     projectState.addListener((projects: Project[]) => {
-      this.assignedProjects = projects;
+      const relevantProjects = projects.filter((prj) => {
+        switch (this.type) {
+          case 'active':
+            return prj.status === ProjectStatus.Active;
+          case 'finished':
+            return prj.status === ProjectStatus.Finished;
+        }
+      });
+      this.assignedProjects = relevantProjects;
       this.renderProjects();
     });
 
@@ -233,6 +241,10 @@ class ProjectList {
       throw new Error('Unexpected calling to render projects');
     }
 
+    // Clear the list
+    listEl.innerHTML = '';
+
+    // Add items to the list
     for (const prjItem of this.assignedProjects) {
       const listItem = document.createElement('li');
       listItem.textContent = prjItem.title;
