@@ -310,7 +310,13 @@ class ProjectItem
 
   @Autobind
   dragStartHandler(event: DragEvent) {
-    console.log(event);
+    const transfer = event.dataTransfer;
+    if (!transfer) {
+      throw new Error('Unexpected event handler calling');
+    }
+
+    transfer.setData('text/plain', this.project.id);
+    transfer.effectAllowed = 'move';
   }
 
   @Autobind
@@ -386,7 +392,17 @@ class ProjectList
   }
 
   @Autobind
-  dragOverHandler(_: DragEvent) {
+  dragOverHandler(event: DragEvent) {
+    const transfer = event.dataTransfer;
+
+    // Check the drag is allowed
+    if (!transfer || transfer.types[0] !== 'text/plain') {
+      return;
+    }
+
+    // To allow drop action to this object
+    event.preventDefault();
+
     // Get the element for the list
     const listEl = this.element.querySelector('ul');
     if (!listEl) {
@@ -409,7 +425,13 @@ class ProjectList
     listEl.classList.remove('droppable');
   }
 
-  dropHandler(_: DragEvent) {}
+  dropHandler(event: DragEvent) {
+    const transfer = event.dataTransfer;
+    if (!transfer) {
+      throw new Error('Unexpected event handler calling');
+    }
+    console.log(transfer.getData('text/plain'));
+  }
 }
 
 // ProjectInput Class
