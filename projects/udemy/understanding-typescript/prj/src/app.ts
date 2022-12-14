@@ -84,7 +84,22 @@ class ProjectState extends State<Project> {
     );
     this.projects.push(newProject);
 
-    // Call listerners functions
+    this.updateListeners();
+  }
+
+  // Move a project into another list
+  moveProject(projectId: string, newStatus: ProjectStatus) {
+    const project = this.projects.find((p) => p.id === projectId);
+
+    if (project && project.status !== newStatus) {
+      // Move to another list
+      project.status = newStatus;
+      this.updateListeners();
+    }
+  }
+
+  // Call listernes functions
+  private updateListeners() {
     for (const listenerFn of this.listeners) {
       listenerFn(this.projects.slice());
     }
@@ -425,12 +440,29 @@ class ProjectList
     listEl.classList.remove('droppable');
   }
 
+  @Autobind
   dropHandler(event: DragEvent) {
     const transfer = event.dataTransfer;
     if (!transfer) {
       throw new Error('Unexpected event handler calling');
     }
-    console.log(transfer.getData('text/plain'));
+
+    // Get the project id dropped
+    const prjId = transfer.getData('text/plain');
+
+    // Set the new status depends on type
+    let newStatus: ProjectStatus;
+    switch (this.type) {
+      case 'active':
+        newStatus = ProjectStatus.Active;
+        break;
+      case 'finished':
+        newStatus = ProjectStatus.Finished;
+        break;
+    }
+
+    // Move to the list
+    projectState.moveProject(prjId, newStatus);
   }
 }
 
