@@ -1,3 +1,26 @@
+// Drag & Drop Interfaces
+
+// Element can drag and drop
+interface Draggable {
+  // Start of drag event
+  dragStartHandler(event: DragEvent): void;
+  // End of drag event
+  dragEndHandler(event: DragEvent): void;
+}
+
+// Target for the draggable elements
+interface DragTarget {
+  // Signal that dragging something over the target
+  dragOverHandler(event: DragEvent): void;
+  // React to the drop happens
+  dropHandler(event: DragEvent): void;
+  // Useful for:
+  // - no drop happens
+  // - it's canceled
+  // - the user moves the element away
+  dragLeaveHandler(event: DragEvent): void;
+}
+
 // Project Type
 enum ProjectStatus {
   Active,
@@ -239,7 +262,10 @@ abstract class Component<T extends HTMLElement, U extends HTMLElement> {
 }
 
 // ProjectItem Class
-class ProjectItem extends Component<HTMLUListElement, HTMLLIElement> {
+class ProjectItem
+  extends Component<HTMLUListElement, HTMLLIElement>
+  implements Draggable
+{
   private project: Project;
 
   get peopleAmount() {
@@ -258,7 +284,10 @@ class ProjectItem extends Component<HTMLUListElement, HTMLLIElement> {
     this.renderContent();
   }
 
-  configure() {}
+  configure() {
+    this.element.addEventListener('dragstart', this.dragStartHandler);
+    this.element.addEventListener('dragend', this.dragEndHandler);
+  }
 
   renderContent() {
     const h2 = this.element.querySelector('h2');
@@ -277,6 +306,16 @@ class ProjectItem extends Component<HTMLUListElement, HTMLLIElement> {
     h2.textContent = this.project.title;
     h3.textContent = this.peopleAmount + ' assigned';
     p.textContent = this.project.description;
+  }
+
+  @Autobind
+  dragStartHandler(event: DragEvent) {
+    console.log(event);
+  }
+
+  @Autobind
+  dragEndHandler(_1: DragEvent) {
+    console.log('DragEnd');
   }
 }
 
