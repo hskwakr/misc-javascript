@@ -238,6 +238,40 @@ abstract class Component<T extends HTMLElement, U extends HTMLElement> {
   abstract renderContent(): void;
 }
 
+// ProjectItem Class
+class ProjectItem extends Component<HTMLUListElement, HTMLLIElement> {
+  private project: Project;
+
+  constructor(hostId: string, project: Project) {
+    super('single-project', hostId, false, project.id);
+    this.project = project;
+
+    this.configure();
+    this.renderContent();
+  }
+
+  configure() {}
+
+  renderContent() {
+    const h2 = this.element.querySelector('h2');
+    if (!h2) {
+      throw new Error('Missing h2 element in list item');
+    }
+    const h3 = this.element.querySelector('h3');
+    if (!h3) {
+      throw new Error('Missing h3 element in list item');
+    }
+    const p = this.element.querySelector('p');
+    if (!p) {
+      throw new Error('Missing p element in list item');
+    }
+
+    h2.textContent = this.project.title;
+    h3.textContent = this.project.people.toString();
+    p.textContent = this.project.description;
+  }
+}
+
 // ProjectList Class
 class ProjectList extends Component<HTMLDivElement, HTMLElement> {
   // Project list from global state
@@ -254,21 +288,18 @@ class ProjectList extends Component<HTMLDivElement, HTMLElement> {
 
   // Update the display of project list
   private renderProjects() {
-    const listEl = document.getElementById(
-      `${this.type}-project-list`
-    ) as HTMLUListElement | null;
-    if (!listEl) {
-      throw new Error('Unexpected calling to render projects');
+    // Get the element for the list
+    const ul = this.element.querySelector('ul');
+    if (!ul) {
+      throw new Error('Missing ul element in project list');
     }
 
-    // Clear the list
-    listEl.innerHTML = '';
+    // Clear the list content
+    ul.innerHTML = '';
 
     // Add items to the list
     for (const prjItem of this.assignedProjects) {
-      const listItem = document.createElement('li');
-      listItem.textContent = prjItem.title;
-      listEl.appendChild(listItem);
+      new ProjectItem(ul.id, prjItem);
     }
   }
 
@@ -276,6 +307,7 @@ class ProjectList extends Component<HTMLDivElement, HTMLElement> {
   configure() {
     // Register listener function to get global state
     projectState.addListener((projects: Project[]) => {
+      // Filter the projects by type
       const relevantProjects = projects.filter((prj) => {
         switch (this.type) {
           case 'active':
