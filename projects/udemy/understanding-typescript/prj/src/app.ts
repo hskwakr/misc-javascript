@@ -314,13 +314,16 @@ class ProjectItem
   }
 
   @Autobind
-  dragEndHandler(_1: DragEvent) {
+  dragEndHandler(_: DragEvent) {
     console.log('DragEnd');
   }
 }
 
 // ProjectList Class
-class ProjectList extends Component<HTMLDivElement, HTMLElement> {
+class ProjectList
+  extends Component<HTMLDivElement, HTMLElement>
+  implements DragTarget
+{
   // Project list from global state
   assignedProjects: Project[];
 
@@ -336,22 +339,27 @@ class ProjectList extends Component<HTMLDivElement, HTMLElement> {
   // Update the display of project list
   private renderProjects() {
     // Get the element for the list
-    const ul = this.element.querySelector('ul');
-    if (!ul) {
+    const listEl = this.element.querySelector('ul');
+    if (!listEl) {
       throw new Error('Missing ul element in project list');
     }
 
     // Clear the list content
-    ul.innerHTML = '';
+    listEl.innerHTML = '';
 
     // Add items to the list
     for (const prjItem of this.assignedProjects) {
-      new ProjectItem(ul.id, prjItem);
+      new ProjectItem(listEl.id, prjItem);
     }
   }
 
   // Set up event listeners
   configure() {
+    // Register listener functions to drag and drop
+    this.element.addEventListener('dragover', this.dragOverHandler);
+    this.element.addEventListener('dragleave', this.dragLeaveHandler);
+    this.element.addEventListener('drop', this.dropHandler);
+
     // Register listener function to get global state
     projectState.addListener((projects: Project[]) => {
       // Filter the projects by type
@@ -376,6 +384,32 @@ class ProjectList extends Component<HTMLDivElement, HTMLElement> {
     this.element.querySelector('h2')!.textContent =
       this.type.toUpperCase() + ' PROJECTS';
   }
+
+  @Autobind
+  dragOverHandler(_: DragEvent) {
+    // Get the element for the list
+    const listEl = this.element.querySelector('ul');
+    if (!listEl) {
+      throw new Error('Missing ul element in project list');
+    }
+
+    // Change style
+    listEl.classList.add('droppable');
+  }
+
+  @Autobind
+  dragLeaveHandler(_: DragEvent) {
+    // Get the element for the list
+    const listEl = this.element.querySelector('ul');
+    if (!listEl) {
+      throw new Error('Missing ul element in project list');
+    }
+
+    // Change style
+    listEl.classList.remove('droppable');
+  }
+
+  dropHandler(_: DragEvent) {}
 }
 
 // ProjectInput Class
