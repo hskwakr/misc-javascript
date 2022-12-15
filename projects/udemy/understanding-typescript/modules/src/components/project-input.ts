@@ -1,11 +1,7 @@
-import { Component } from './base-component.js';
+import Component from './base-component.js';
 import { Autobind } from '../decorators/autobind.js';
 import { projectState } from '../state/project-state.js';
-import {
-  validate,
-  ValidatableString,
-  ValidatableNumber,
-} from '../util/validation.js';
+import * as Validation from '../util/validation.js';
 
 // ProjectInput Class
 export class ProjectInput extends Component<HTMLDivElement, HTMLFormElement> {
@@ -39,20 +35,20 @@ export class ProjectInput extends Component<HTMLDivElement, HTMLFormElement> {
     const enteredPeople = this.peopleInputElement.value;
 
     // Define validate condition
-    const titleValidatable: ValidatableString = {
+    const titleValidatable: Validation.ValidatableString = {
       type: 'string',
       name: 'title',
       value: enteredTitle,
       required: true,
     };
-    const descriptionValidatable: ValidatableString = {
+    const descriptionValidatable: Validation.ValidatableString = {
       type: 'string',
       name: 'description',
       value: enteredDescription,
       required: true,
       minLength: 5,
     };
-    const peopleValidatable: ValidatableNumber = {
+    const peopleValidatable: Validation.ValidatableNumber = {
       type: 'number',
       name: 'people',
       value: enteredPeople,
@@ -62,11 +58,12 @@ export class ProjectInput extends Component<HTMLDivElement, HTMLFormElement> {
     };
 
     // Validate
-    const [titleIsValid, titleErrors] = validate(titleValidatable);
-    const [descriptionIsValid, descptionErrors] = validate(
+    const [titleIsValid, titleErrors] = Validation.validate(titleValidatable);
+    const [descriptionIsValid, descptionErrors] = Validation.validate(
       descriptionValidatable
     );
-    const [peopleIsValid, peopleErrors] = validate(peopleValidatable);
+    const [peopleIsValid, peopleErrors] =
+      Validation.validate(peopleValidatable);
 
     // Check validation result
     const isValid = titleIsValid && descriptionIsValid && peopleIsValid;
