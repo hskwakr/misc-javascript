@@ -1,3 +1,6 @@
+// Get the api key
+const API_KEY = process.env.GOOGLE_API_KEY;
+
 // Get form element
 const form = document.querySelector('form');
 if (!form) {
@@ -14,7 +17,7 @@ if (!addressInput) {
 function searchAddressHandler(event: Event) {
   event.preventDefault();
 
-  const enteredAddress = addressInput.value;
+  // const enteredAddress = addressInput.value;
 }
 
 // Register events

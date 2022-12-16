@@ -14,6 +14,7 @@
   "author": "Maximilian Schwarzmüller",
   "license": "ISC",
   "devDependencies": {
+    "dotenv-webpack": "^8.0.1",
     "lite-server": "^2.5.4",
     "prettier": "2.8.1",
     "ts-loader": "^9.4.2",
