@@ -13,11 +13,14 @@ function App(): JSX.Element {
       { id: Math.random().toString(), text },
     ]);
   }
+  function todoDeleteHandler(todoId: string): void {
+    setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== todoId));
+  }
 
   return (
     <div className='App'>
       <NewTodo onAddTodo={todoAddHandler} />
-      <TodoList items={todos} />
+      <TodoList items={todos} onDeleteTodo={todoDeleteHandler} />
     </div>
   );
 }
