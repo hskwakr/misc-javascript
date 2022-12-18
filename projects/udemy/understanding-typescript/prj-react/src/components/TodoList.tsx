@@ -1,7 +1,8 @@
 import React from 'react';
+import { Todo } from '../todo.model';
 
 interface TodoListProps {
-  items: Array<{ id: string; text: string }>;
+  items: Todo[];
 }
 
 export default function TodoList({ items }: TodoListProps): JSX.Element {
